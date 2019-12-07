@@ -74,6 +74,10 @@ public class ClinicModel extends Model {
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
+		totalCost = new Tally(this, "Total Cost", true, true);
+		numberInSystem = new Count(this, "Number of Patients in system", true, true);
+		numberBalked = new Tally(this, "Number of Patients balked", true, true);
+		numberReffered = new Tally(this, "Number of Patients reffered to the specialist", true, true);
 		interarrivalTimes8am = new ContDistExponential(this, "Inter Arrival Times for 8am-10am", 15, true, true);
 		interarrivalTimes10am = new ContDistExponential(this, "Inter Arrival Times for 10am-4pm", 6, true, true);
 		interarrivalTimes4pm = new ContDistExponential(this, "Inter Arrival Times for 4pm-8pm", 9, true, true);
@@ -88,10 +92,6 @@ public class ClinicModel extends Model {
 		practitionerTreatmentTimes = new ContDistExponential(this, "Practitioner Treatment Times", 8, true, true);
 		refer = new BoolDistBernoulli(this, "Refferal Probability", .4, true, true);
 		specialistTreatmentTimes = new ContDistExponential(this, "Specialist treatment Times", 25, true, true);
-		totalCost = new Tally(this, "Total Cost", true, true);
-		numberInSystem = new Count(this, "Number of Patients in system", true, true);
-		numberBalked = new Tally(this, "Number of Patients balked", true, true);
-		numberReffered = new Tally(this, "Number of Patients reffered to the specialist", true, true);
 
 	}
 

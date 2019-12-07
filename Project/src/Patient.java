@@ -14,7 +14,8 @@ public class Patient extends SimProcess{
 		ClinicModel model = (ClinicModel)getModel();
 		arrivalTime = model.presentTime().getTimeAsDouble();
 		model.numberInSystem.update();
-		if(model.nurseQueue.length() >= model.queueThreshold) {
+		
+		if(model.balks[model.nurseQueue.length()].sample()) {
 			model.totalCost.update(500);
 			model.numberInSystem.update(-1);
 			return;
@@ -44,5 +45,7 @@ public class Patient extends SimProcess{
 		/////////////////////////////////////////////////End Of Sp Work//////////////
 		model.numberInSystem.update();
 	}
+	
+	
 
 }
