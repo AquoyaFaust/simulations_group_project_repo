@@ -23,6 +23,7 @@ public class ArrivalGenerator extends SimProcess{
 		}
 		
 	}
+
 	
 	private ContDistExponential pickInterarrivalTime(ClinicModel model) {
 		double time = model.presentTime().getTimeAsDouble();
