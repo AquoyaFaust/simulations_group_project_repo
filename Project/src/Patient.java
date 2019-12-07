@@ -4,14 +4,15 @@ import desmoj.core.simulator.SimProcess;
 
 public class Patient extends SimProcess{
 	
+	private double arrivalTime;
 	public Patient(Model owner, String name, boolean showInTrace) {
 		super(owner, name, showInTrace);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void lifeCycle() throws SuspendExecution {
 		ClinicModel model = (ClinicModel)getModel();
+		arrivalTime = model.presentTime().getTimeAsDouble();
 		
 		model.numberInSystem.update();
 		if(model.nurseQueue.length() >= model.queueThreshold) {
@@ -27,10 +28,18 @@ public class Patient extends SimProcess{
 			NursePractioner nurse = model.idleNurseQueue.removeLast();
 			nurse.activate();
 		}
+		/////////////////////////////////////////////////End Of Nurse Work//////////////
 		if(model.refer.sample()) {
-			
+			if(model.presentTime().getTimeAsDouble()-arrivalTime > 30 || model.specialistQueue.length() >= model.numberExamRooms - 1) {
+				model.numberInSystem.update(-1);
+				model.totalCost.update(500);
+				return;
+			} else {
+				model.specialistQueue.insert(this);
+				passivate();
+			}
 		}
-		/////////////////////////////////////////////////End Of Nurse Practioners Work//////////////
+		/////////////////////////////////////////////////End Of Sp Work//////////////
 		
 	}
 
