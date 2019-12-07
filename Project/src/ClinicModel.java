@@ -2,7 +2,6 @@ import java.util.concurrent.TimeUnit;
 
 import desmoj.core.dist.BoolDistBernoulli;
 import desmoj.core.dist.ContDistExponential;
-import desmoj.core.dist.DiscreteDistEmpirical;
 import desmoj.core.simulator.Experiment;
 import desmoj.core.simulator.Model;
 import desmoj.core.simulator.ProcessQueue;

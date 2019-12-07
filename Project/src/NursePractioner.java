@@ -1,6 +1,5 @@
 import co.paralleluniverse.fibers.SuspendExecution;
-import desmoj.core.simulator.Model;
-import desmoj.core.simulator.SimProcess;
+import desmoj.core.simulator.*;
 
 public class NursePractioner extends SimProcess{
 
@@ -20,7 +19,8 @@ public class NursePractioner extends SimProcess{
 			}
 			Patient patient = model.nurseQueue.removeFirst();
 			double nurseServiceTime = model.practitionerTreatmentTimes.sample();
-			
+			hold(new TimeSpan(nurseServiceTime));
+			patient.activate();
 		}
 	}
 
