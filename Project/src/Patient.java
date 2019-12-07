@@ -28,6 +28,7 @@ public class Patient extends SimProcess{
 			NursePractioner nurse = model.idleNurseQueue.removeLast();
 			nurse.activate();
 		}
+		
 		/////////////////////////////////////////////////End Of Nurse Work//////////////
 		if(model.refer.sample()) {
 			if(model.presentTime().getTimeAsDouble()-arrivalTime > 30 || model.specialistQueue.length() >= model.numberExamRooms - 1) {
