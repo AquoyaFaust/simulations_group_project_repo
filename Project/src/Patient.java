@@ -36,14 +36,14 @@ public class Patient extends SimProcess{
 				return;
 			} else {
 				model.specialistQueue.insert(this);
-				if(!model.idleNurseQueue.isEmpty()) {
+				if(!model.idleSpecialistQueue.isEmpty()) {
 					model.idleSpecialistQueue.removeFirst().activate();
 				}
 				passivate();
 			}
 		}
 		/////////////////////////////////////////////////End Of Sp Work//////////////
-		model.numberInSystem.update();
+		model.numberInSystem.update(-1);
 	}
 	
 	

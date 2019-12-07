@@ -39,7 +39,7 @@ public class ClinicModel extends Model {
 	/* STATISTICS */
 	protected Count numberInSystem;
 	protected int queueThreshold;
-	protected Tally totalCost;
+	protected Count totalCost;
 	protected Tally numberBalked;
 	protected Tally numberReffered;
 
@@ -74,7 +74,7 @@ public class ClinicModel extends Model {
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
-		totalCost = new Tally(this, "Total Cost", true, true);
+		totalCost = new Count(this, "Total Cost", true, true);
 		numberInSystem = new Count(this, "Number of Patients in system", true, true);
 		numberBalked = new Tally(this, "Number of Patients balked", true, true);
 		numberReffered = new Tally(this, "Number of Patients reffered to the specialist", true, true);
