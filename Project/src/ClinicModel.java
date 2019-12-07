@@ -26,13 +26,12 @@ public class ClinicModel extends Model {
 	/* COMPONENTS */
 	ProcessQueue<NursePractioner> idleNurseQueue;
 	ProcessQueue<Specialist> idleSpecialistQueue;
-
-	protected DiscreteDistEmpirical<Integer> serviceTimes;
+	
 	protected ContDistExponential interarrivalTimes8am;
 	protected ContDistExponential interarrivalTimes10am;
 	protected ContDistExponential interarrivalTimes4pm;
 	protected BoolDistBernoulli[] balks;
-	protected ContDistExponential practitionerTreatmentTimes;
+	protected ContDistExponential practitionerTreatmentTimes; 
 	protected BoolDistBernoulli refer;
 	protected ContDistExponential specialistTreatmentTimes;
 
