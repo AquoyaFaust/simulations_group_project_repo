@@ -24,7 +24,9 @@ public class ClinicModel extends Model {
 	ProcessQueue<Specialist> idleSpecialistQueue;
 
 	protected DiscreteDistEmpirical<Integer> serviceTimes;
-	protected ContDistExponential interarrivalTimes;
+	protected ContDistExponential interarrivalTimes8am;
+	protected ContDistExponential interarrivalTimes10am;
+	protected ContDistExponential interarrivalTimes4pm;
 	protected BoolDistBernoulli balks;
 	protected ContDistExponential practitionerTreatmentTimes;
 	protected BoolDistBernoulli refer;
@@ -56,11 +58,15 @@ public class ClinicModel extends Model {
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
-		interarrivalTimes = new ContDistExponential(this, "Inter Arrival Times", 15, true, true);
+		interarrivalTimes8am = new ContDistExponential(this, "Inter Arrival Times for 8am-10am", 15, true, true);
+		interarrivalTimes10am = new ContDistExponential(this, "Inter Arrival Times for 10am-4pm", 6, true, true);
+		interarrivalTimes4pm = new ContDistExponential(this, "Inter Arrival Times for 4pm-8pm", 9, true, true);
 		balks = new BoolDistBernoulli(this, "Balk Probability", 0, true, true);
 		practitionerTreatmentTimes = new ContDistExponential(this, "Practitioner Treatment Times", 8, true, true);
 		refer = new BoolDistBernoulli(this, "Refferal Probability", .4, true, true);
 		specialistTreatmentTimes = new ContDistExponential(this, "Specialist treatment Times", 25, true, true);
+		totalCost = new Tally(this, "Total Cost", true, true);
+		numberInSystem = new Count(this, "Number of Patients in system", true, true);
 
 	}
 
