@@ -13,6 +13,7 @@ public class Specialist extends SimProcess {
 	public void lifeCycle() throws SuspendExecution {
 		// TODO Auto-generated method stub
 		ClinicModel model = (ClinicModel) getModel();
+		model.totalCost.update(1500);
 
 		while (true) {
 			if (model.specialistQueue.isEmpty()) {
@@ -21,6 +22,7 @@ public class Specialist extends SimProcess {
 
 			} else {
 				Patient patient = model.specialistQueue.removeFirst();
+				model.totalCost.update(100);
 
 			}
 
