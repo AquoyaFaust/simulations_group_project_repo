@@ -1,6 +1,7 @@
 import co.paralleluniverse.fibers.SuspendExecution;
 import desmoj.core.simulator.Model;
 import desmoj.core.simulator.SimProcess;
+import desmoj.core.simulator.TimeSpan;
 
 public class Specialist extends SimProcess {
 
@@ -20,11 +21,12 @@ public class Specialist extends SimProcess {
 				model.idleSpecialistQueue.insert(this);
 				this.passivate();
 
-			} else {
-				Patient patient = model.specialistQueue.removeFirst();
-				model.totalCost.update(100);
-
 			}
+			Patient patient = model.specialistQueue.removeFirst();
+			model.totalCost.update(100);
+			double ta = model.specialistTreatmentTimes.sample();
+			this.hold(new TimeSpan(ta));
+			patient.activate();
 
 		}
 	}
