@@ -60,6 +60,9 @@ public class ClinicModel extends Model {
 		// TODO Auto-generated method stub
 		ArrivalGenerator gen = new ArrivalGenerator(this, "Arrival Generator", true);
 		gen.activate();
+		//need to activate all practioners and specialists
+		
+		totalCost.update(numberExamRooms*300);
 
 	}
 
