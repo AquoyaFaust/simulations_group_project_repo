@@ -21,6 +21,14 @@ public class Patient extends SimProcess{
 		} 
 		
 		model.nurseQueue.insert(this);
+		if(model.idleNurseQueue.isEmpty()) {
+			passivate();
+		} else {
+			NursePractioner nurse = model.idleNurseQueue.removeLast();
+			nurse.activate();
+		}
+		
+		/////////////////////////////////////////////////End Of Nurse Practioners Work//////////////
 		
 	}
 
