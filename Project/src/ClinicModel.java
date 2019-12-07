@@ -19,6 +19,10 @@ import desmoj.core.statistic.Tally;
  *          and Specialists
  */
 public class ClinicModel extends Model {
+	/*Changeable*/
+	int numberExamRooms = 4;
+	int numberNurses = 1;
+	int numberSpecialist = 1;
 	/* COMPONENTS */
 	ProcessQueue<NursePractioner> idleNurseQueue;
 	ProcessQueue<Specialist> idleSpecialistQueue;
@@ -27,15 +31,7 @@ public class ClinicModel extends Model {
 	protected ContDistExponential interarrivalTimes8am;
 	protected ContDistExponential interarrivalTimes10am;
 	protected ContDistExponential interarrivalTimes4pm;
-	protected BoolDistBernoulli balks0;
-	protected BoolDistBernoulli balks1;
-	protected BoolDistBernoulli balks2;
-	protected BoolDistBernoulli balks3;
-	protected BoolDistBernoulli balks4;
-	protected BoolDistBernoulli balks5;
-	protected BoolDistBernoulli balks6;
-	protected BoolDistBernoulli balks7;
-	protected BoolDistBernoulli balks8;
+	protected BoolDistBernoulli[] balks;
 	protected ContDistExponential practitionerTreatmentTimes;
 	protected BoolDistBernoulli refer;
 	protected ContDistExponential specialistTreatmentTimes;
@@ -73,15 +69,10 @@ public class ClinicModel extends Model {
 		interarrivalTimes8am = new ContDistExponential(this, "Inter Arrival Times for 8am-10am", 15, true, true);
 		interarrivalTimes10am = new ContDistExponential(this, "Inter Arrival Times for 10am-4pm", 6, true, true);
 		interarrivalTimes4pm = new ContDistExponential(this, "Inter Arrival Times for 4pm-8pm", 9, true, true);
-		balks0 = new BoolDistBernoulli(this, "Balk Probability", 0, true, true);
-		balks1 = new BoolDistBernoulli(this, "Balk Probability", 1 / 8, true, true);
-		balks2 = new BoolDistBernoulli(this, "Balk Probability", 2 / 8, true, true);
-		balks3 = new BoolDistBernoulli(this, "Balk Probability", 3 / 8, true, true);
-		balks4 = new BoolDistBernoulli(this, "Balk Probability", 4 / 8, true, true);
-		balks5 = new BoolDistBernoulli(this, "Balk Probability", 5 / 8, true, true);
-		balks6 = new BoolDistBernoulli(this, "Balk Probability", 6 / 8, true, true);
-		balks7 = new BoolDistBernoulli(this, "Balk Probability", 7 / 8, true, true);
-		balks8 = new BoolDistBernoulli(this, "Balk Probability", 1, true, true);
+		balks = new BoolDistBernoulli[9];
+		for(int i = 0; i < 9; i++) {
+			balks[i] = new BoolDistBernoulli(this, "Balk Probability", i/8, true, true);
+		}
 		practitionerTreatmentTimes = new ContDistExponential(this, "Practitioner Treatment Times", 8, true, true);
 		refer = new BoolDistBernoulli(this, "Refferal Probability", .4, true, true);
 		specialistTreatmentTimes = new ContDistExponential(this, "Specialist treatment Times", 25, true, true);
