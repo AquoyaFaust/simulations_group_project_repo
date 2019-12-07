@@ -34,7 +34,7 @@ public class ClinicModel extends Model {
 	ProcessQueue<Patient> specialistQueue;
 	/* STATISTICS */
 	protected Count numberInSystem;
-	protected Count QueueThreshold;
+	protected Count queueThreshold;
 	protected Tally totalCost;
 
 	public ClinicModel(Model owner, String modelName, boolean showInReport, boolean showInTrace) {
