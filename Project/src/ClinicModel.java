@@ -46,6 +46,8 @@ public class ClinicModel extends Model {
 	protected Count numberInSystem;
 	protected int queueThreshold;
 	protected Tally totalCost;
+	protected Count numberBalked;
+	protected Count numberReffered;
 
 	public ClinicModel(Model owner, String modelName, boolean showInReport, boolean showInTrace) {
 		super(owner, modelName, showInReport, showInTrace);
@@ -85,6 +87,8 @@ public class ClinicModel extends Model {
 		specialistTreatmentTimes = new ContDistExponential(this, "Specialist treatment Times", 25, true, true);
 		totalCost = new Tally(this, "Total Cost", true, true);
 		numberInSystem = new Count(this, "Number of Patients in system", true, true);
+		numberBalked = new Count(this, "Number of Patients balked", true, true);
+		numberReffered = new Count(this, "Number of Patients reffered to the specialist", true, true);
 
 	}
 
