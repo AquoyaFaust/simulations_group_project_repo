@@ -18,28 +18,28 @@ import desmoj.core.statistic.Tally;
  *          and Specialists
  */
 public class ClinicModel extends Model {
-	/*Changeable*/
+	/* Changeable */
 	int numberExamRooms = 4;
 	int numberNurses = 1;
 	int numberSpecialists = 1;
 	/* COMPONENTS */
 	ProcessQueue<NursePractioner> idleNurseQueue;
 	ProcessQueue<Specialist> idleSpecialistQueue;
-	
+
 	protected ContDistExponential interarrivalTimes8am;
 	protected ContDistExponential interarrivalTimes10am;
 	protected ContDistExponential interarrivalTimes4pm;
 	protected BoolDistBernoulli[] balks;
-	protected ContDistExponential practitionerTreatmentTimes; 
+	protected ContDistExponential practitionerTreatmentTimes;
 	protected BoolDistBernoulli refer;
 	protected ContDistExponential specialistTreatmentTimes;
 
 	ProcessQueue<Patient> nurseQueue;
 	ProcessQueue<Patient> specialistQueue;
 	/* STATISTICS */
-	protected Tally numberInSystem;
+	protected Count numberInSystem;
 	protected int queueThreshold;
-	protected Count totalCost;
+	protected Tally totalCost;
 	protected Tally numberBalked;
 	protected Tally numberReffered;
 
@@ -58,16 +58,16 @@ public class ClinicModel extends Model {
 		// TODO Auto-generated method stub
 		ArrivalGenerator gen = new ArrivalGenerator(this, "Arrival Generator", true);
 		gen.activate();
-		//need to activate all practioners and specialists
-		for(int i = 0; i < numberNurses; i++) {
+		// need to activate all practioners and specialists
+		for (int i = 0; i < numberNurses; i++) {
 			NursePractioner n = new NursePractioner(this, "Nurse", true);
 			n.activate();
 		}
-		for(int i = 0; i < numberSpecialists; i++) {
+		for (int i = 0; i < numberSpecialists; i++) {
 			Specialist s = new Specialist(this, "Specialist", true);
 			s.activate();
 		}
-		totalCost.update(numberExamRooms*300);
+		totalCost.update(numberExamRooms * 300);
 
 	}
 
@@ -78,8 +78,8 @@ public class ClinicModel extends Model {
 		interarrivalTimes10am = new ContDistExponential(this, "Inter Arrival Times for 10am-4pm", 6, true, true);
 		interarrivalTimes4pm = new ContDistExponential(this, "Inter Arrival Times for 4pm-8pm", 9, true, true);
 		balks = new BoolDistBernoulli[9];
-		for(int i = 0; i < 9; i++) {
-			balks[i] = new BoolDistBernoulli(this, "Balk Probability", i/8, true, true);
+		for (int i = 0; i < 9; i++) {
+			balks[i] = new BoolDistBernoulli(this, "Balk Probability", i / 8, true, true);
 		}
 		idleNurseQueue = new ProcessQueue<NursePractioner>(this, "Idle Nurse Queue", true, true);
 		idleSpecialistQueue = new ProcessQueue<Specialist>(this, "Idle Specialist Queue", true, true);
@@ -88,8 +88,8 @@ public class ClinicModel extends Model {
 		practitionerTreatmentTimes = new ContDistExponential(this, "Practitioner Treatment Times", 8, true, true);
 		refer = new BoolDistBernoulli(this, "Refferal Probability", .4, true, true);
 		specialistTreatmentTimes = new ContDistExponential(this, "Specialist treatment Times", 25, true, true);
-		totalCost = new Count(this, "Total Cost", true, true);
-		numberInSystem = new Tally(this, "Number of Patients in system", true, true);
+		totalCost = new Tally(this, "Total Cost", true, true);
+		numberInSystem = new Count(this, "Number of Patients in system", true, true);
 		numberBalked = new Tally(this, "Number of Patients balked", true, true);
 		numberReffered = new Tally(this, "Number of Patients reffered to the specialist", true, true);
 
