@@ -15,6 +15,7 @@ public class NursePractioner extends SimProcess{
 			if(model.nurseQueue.isEmpty()) {
 				passivate();
 			}
+			
 		}
 	}
 
