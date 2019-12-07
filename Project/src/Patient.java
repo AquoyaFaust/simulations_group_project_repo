@@ -14,13 +14,23 @@ public class Patient extends SimProcess{
 		ClinicModel model = (ClinicModel)getModel();
 		
 		model.numberInSystem.update();
-		if(model.nurseQueue >= model.queueThreshold) {
-			totalCost.update(500);
-			numberInSystem.update(-1);
+		if(model.nurseQueue.length() >= model.queueThreshold) {
+			model.totalCost.update(500);
+			model.numberInSystem.update(-1);
 			return;
 		} 
 		
 		model.nurseQueue.insert(this);
+		if(model.idleNurseQueue.isEmpty()) {
+			passivate();
+		} else {
+			NursePractioner nurse = model.idleNurseQueue.removeLast();
+			nurse.activate();
+		}
+		if(model.refer.sample()) {
+			
+		}
+		/////////////////////////////////////////////////End Of Nurse Practioners Work//////////////
 		
 	}
 
