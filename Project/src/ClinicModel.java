@@ -108,7 +108,7 @@ public class ClinicModel extends Model {
 
 		// Set experiment parameters
 		exp.setShowProgressBar(false); // display a progress bar (or not)
-		exp.stop(new TimeInstant(8, TimeUnit.HOURS));
+		exp.stop(new TimeInstant(12, TimeUnit.HOURS));
 		// Set the period of the trace and debug
 		exp.tracePeriod(new TimeInstant(0, TimeUnit.MINUTES), new TimeInstant(60, TimeUnit.MINUTES));
 		exp.debugPeriod(new TimeInstant(0, TimeUnit.MINUTES), new TimeInstant(60, TimeUnit.MINUTES));
