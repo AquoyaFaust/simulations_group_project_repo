@@ -13,7 +13,6 @@ public class Patient extends SimProcess{
 	public void lifeCycle() throws SuspendExecution {
 		ClinicModel model = (ClinicModel)getModel();
 		arrivalTime = model.presentTime().getTimeAsDouble();
-		
 		model.numberInSystem.update();
 		if(model.nurseQueue.length() >= model.queueThreshold) {
 			model.totalCost.update(500);
@@ -43,7 +42,7 @@ public class Patient extends SimProcess{
 			}
 		}
 		/////////////////////////////////////////////////End Of Sp Work//////////////
-		
+		model.numberInSystem.update();
 	}
 
 }

@@ -21,7 +21,7 @@ public class ClinicModel extends Model {
 	/*Changeable*/
 	int numberExamRooms = 4;
 	int numberNurses = 1;
-	int numberSpecialist = 1;
+	int numberSpecialists = 1;
 	/* COMPONENTS */
 	ProcessQueue<NursePractioner> idleNurseQueue;
 	ProcessQueue<Specialist> idleSpecialistQueue;
@@ -37,11 +37,11 @@ public class ClinicModel extends Model {
 	ProcessQueue<Patient> nurseQueue;
 	ProcessQueue<Patient> specialistQueue;
 	/* STATISTICS */
-	protected Count numberInSystem;
+	protected Tally numberInSystem;
 	protected int queueThreshold;
-	protected Tally totalCost;
-	protected Count numberBalked;
-	protected Count numberReffered;
+	protected Count totalCost;
+	protected Tally numberBalked;
+	protected Tally numberReffered;
 
 	public ClinicModel(Model owner, String modelName, boolean showInReport, boolean showInTrace) {
 		super(owner, modelName, showInReport, showInTrace);
@@ -59,7 +59,14 @@ public class ClinicModel extends Model {
 		ArrivalGenerator gen = new ArrivalGenerator(this, "Arrival Generator", true);
 		gen.activate();
 		//need to activate all practioners and specialists
-		
+		for(int i = 0; i < numberNurses; i++) {
+			NursePractioner n = new NursePractioner(this, "Nurse", true);
+			n.activate();
+		}
+		for(int i = 0; i < numberSpecialists; i++) {
+			Specialist s = new Specialist(this, "Specialist", true);
+			s.activate();
+		}
 		totalCost.update(numberExamRooms*300);
 
 	}
@@ -74,13 +81,17 @@ public class ClinicModel extends Model {
 		for(int i = 0; i < 9; i++) {
 			balks[i] = new BoolDistBernoulli(this, "Balk Probability", i/8, true, true);
 		}
+		idleNurseQueue = new ProcessQueue<NursePractioner>(this, "Idle Nurse Queue", true, true);
+		idleSpecialistQueue = new ProcessQueue<Specialist>(this, "Idle Specialist Queue", true, true);
+		nurseQueue = new ProcessQueue<Patient>(this, "Nurse Practioner Queue", true, true);
+		specialistQueue = new ProcessQueue<Patient>(this, "Specialist Queue", true, true);
 		practitionerTreatmentTimes = new ContDistExponential(this, "Practitioner Treatment Times", 8, true, true);
 		refer = new BoolDistBernoulli(this, "Refferal Probability", .4, true, true);
 		specialistTreatmentTimes = new ContDistExponential(this, "Specialist treatment Times", 25, true, true);
-		totalCost = new Tally(this, "Total Cost", true, true);
-		numberInSystem = new Count(this, "Number of Patients in system", true, true);
-		numberBalked = new Count(this, "Number of Patients balked", true, true);
-		numberReffered = new Count(this, "Number of Patients reffered to the specialist", true, true);
+		totalCost = new Count(this, "Total Cost", true, true);
+		numberInSystem = new Tally(this, "Number of Patients in system", true, true);
+		numberBalked = new Tally(this, "Number of Patients balked", true, true);
+		numberReffered = new Tally(this, "Number of Patients reffered to the specialist", true, true);
 
 	}
 
