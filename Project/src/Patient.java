@@ -11,7 +11,16 @@ public class Patient extends SimProcess{
 
 	@Override
 	public void lifeCycle() throws SuspendExecution {
-		// TODO Auto-generated method stub
+		ClinicModel model = (ClinicModel)getModel();
+		
+		model.numberInSystem.update();
+		if(model.nurseQueue >= model.queueThreshold) {
+			totalCost.update(500);
+			numberInSystem.update(-1);
+			return;
+		} 
+		
+		model.nurseQueue.insert(this);
 		
 	}
 
