@@ -22,12 +22,11 @@ public class Patient extends SimProcess{
 		} 
 		
 		model.nurseQueue.insert(this);
-		if(model.idleNurseQueue.isEmpty()) {
-			passivate();
-		} else {
-			NursePractioner nurse = model.idleNurseQueue.removeLast();
+		if(!model.idleNurseQueue.isEmpty()) {
+			NursePractioner nurse = model.idleNurseQueue.removeFirst();
 			nurse.activate();
 		}
+		passivate();
 		
 		/////////////////////////////////////////////////End Of Nurse Work//////////////
 		if(model.refer.sample()) {
@@ -37,6 +36,9 @@ public class Patient extends SimProcess{
 				return;
 			} else {
 				model.specialistQueue.insert(this);
+				if(!model.idleNurseQueue.isEmpty()) {
+					model.idleSpecialistQueue.removeFirst().activate();
+				}
 				passivate();
 			}
 		}

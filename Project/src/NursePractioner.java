@@ -18,6 +18,8 @@ public class NursePractioner extends SimProcess{
 				model.idleNurseQueue.insert(this);
 				passivate();
 			}
+			Patient patient = model.nurseQueue.removeFirst();
+			double nurseServiceTime = model.practitionerTreatmentTimes.sample();
 			
 		}
 	}
