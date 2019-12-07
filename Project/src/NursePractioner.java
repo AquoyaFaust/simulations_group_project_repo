@@ -6,7 +6,6 @@ public class NursePractioner extends SimProcess{
 
 	public NursePractioner(Model owner, String name, boolean showInTrace) {
 		super(owner, name, showInTrace);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
