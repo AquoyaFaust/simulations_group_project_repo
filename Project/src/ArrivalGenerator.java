@@ -1,6 +1,6 @@
 import co.paralleluniverse.fibers.SuspendExecution;
 import desmoj.core.dist.ContDistExponential;
-import desmoj.core.simulator.SimProcess;
+import desmoj.core.simulator.*;
 
 public class ArrivalGenerator extends SimProcess{
 	
@@ -21,7 +21,7 @@ public class ArrivalGenerator extends SimProcess{
 			interarrivalTimes = model.interarrivalTimes4pm;
 		}
 		while(model.presentTime().getTimeAsDouble() >= 480 && model.presentTime().getTimeAsDouble() < 1200) {
-			model.interarrivalTimes.
+			
 		}
 		
 	}
