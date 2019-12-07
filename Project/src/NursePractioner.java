@@ -10,8 +10,12 @@ public class NursePractioner extends SimProcess{
 
 	@Override
 	public void lifeCycle() throws SuspendExecution {
-		// TODO Auto-generated method stub
-		
+		ClinicModel model = (ClinicModel)getModel();
+		while(true) {
+			if(model.nurseQueue.isEmpty()) {
+				passivate();
+			}
+		}
 	}
 
 }
