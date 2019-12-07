@@ -11,5 +11,31 @@ import desmoj.core.simulator.*;
  * It simulates a 12 hour a day 8am-8pm clinic including Nurse Practioners and Specialists
  */
 public class ClinicModel extends Model {
+	/* COMPONENTS */
+	ProcessQueue<NursePractioner> idleNurseQueue;
+	ProcessQueue<Specialist> idleSpecialistQueue;
+	/* STATISTICS*/
+	
+	public ClinicModel(Model owner, String modelName, boolean showInReport, boolean showInTrace) {
+		super(owner, modelName, showInReport, showInTrace);
+	}
 
+	@Override
+	public String description() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void doInitialSchedules() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void init() {
+		// TODO Auto-generated method stub
+		
+	}
+	
 }
