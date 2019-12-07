@@ -14,6 +14,9 @@ public class ClinicModel extends Model {
 	/* COMPONENTS */
 	ProcessQueue<NursePractioner> idleNurseQueue;
 	ProcessQueue<Specialist> idleSpecialistQueue;
+	
+	ProcessQueue<Patient> nurseQueue;
+	ProcessQueue<Patient> specialistQueue;
 	/* STATISTICS*/
 	
 	public ClinicModel(Model owner, String modelName, boolean showInReport, boolean showInTrace) {
@@ -23,7 +26,6 @@ public class ClinicModel extends Model {
 	@Override
 	public String description() {
 		// TODO Auto-generated method stub
-		System.out.println();
 		return null;
 	}
 
