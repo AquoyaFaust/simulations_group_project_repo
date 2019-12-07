@@ -11,19 +11,23 @@ public class ArrivalGenerator extends SimProcess{
 	@Override
 	public void lifeCycle() throws SuspendExecution {
 		ClinicModel model = (ClinicModel)getModel();
-		protected ContDistExponential interarrivalTimes;
-		double time = model.presentTime().getTimeAsDouble();
-		if(time <= 600) {
-			interarrivalTimes = model.interarrivalTimes8am;
-		} else if(time > 600 && time <= 960) {
-			interarrivalTimes = model.interarrivalTimes10am;
-		} else {
-			interarrivalTimes = model.interarrivalTimes4pm;
-		}
-		while(model.presentTime().getTimeAsDouble() >= 480 && model.presentTime().getTimeAsDouble() < 1200) {
+		while(model.presentTime().getTimeAsDouble() < 720) {
+			ContDistExponential interarrivalTimes = pickInterarrivalTime(model);
+			
 			
 		}
 		
+	}
+	
+	private ContDistExponential pickInterarrivalTime(ClinicModel model) {
+		double time = model.presentTime().getTimeAsDouble();
+		if(time <= 120) {
+			return model.interarrivalTimes8am;
+		} else if(time > 240 && time <= 480) {
+			return model.interarrivalTimes10am;
+		} else {
+			return model.interarrivalTimes4pm;
+		}
 	}
 
 }
