@@ -27,7 +27,9 @@ public class Patient extends SimProcess{
 			NursePractioner nurse = model.idleNurseQueue.removeLast();
 			nurse.activate();
 		}
-		
+		if(model.refer.sample()) {
+			
+		}
 		/////////////////////////////////////////////////End Of Nurse Practioners Work//////////////
 		
 	}
