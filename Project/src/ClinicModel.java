@@ -42,6 +42,7 @@ public class ClinicModel extends Model {
 	protected Count totalCost;
 	protected Tally numberBalked;
 	protected Tally numberReffered;
+	protected StoppingCondition stop;
 
 	public ClinicModel(Model owner, String modelName, boolean showInReport, boolean showInTrace) {
 		super(owner, modelName, showInReport, showInTrace);
@@ -92,7 +93,7 @@ public class ClinicModel extends Model {
 		practitionerTreatmentTimes = new ContDistExponential(this, "Practitioner Treatment Times", 8, true, true);
 		refer = new BoolDistBernoulli(this, "Refferal Probability", .4, true, true);
 		specialistTreatmentTimes = new ContDistExponential(this, "Specialist treatment Times", 25, true, true);
-
+		stop = new StoppingCondition(this, "Stopping Condition", true);
 	}
 
 	public static void main(String[] args) {
@@ -108,7 +109,7 @@ public class ClinicModel extends Model {
 
 		// Set experiment parameters
 		exp.setShowProgressBar(false); // display a progress bar (or not)
-		exp.stop(new TimeInstant(12, TimeUnit.HOURS)); //fix to stopping case
+		exp.stop(model.stop); //fix to stopping case
 		// Set the period of the trace and debug
 		exp.tracePeriod(new TimeInstant(0, TimeUnit.MINUTES), new TimeInstant(60, TimeUnit.MINUTES));
 		exp.debugPeriod(new TimeInstant(0, TimeUnit.MINUTES), new TimeInstant(60, TimeUnit.MINUTES));
