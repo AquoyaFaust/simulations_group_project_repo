@@ -1,11 +1,7 @@
-import java.util.concurrent.TimeUnit;
-
 import desmoj.core.dist.BoolDistBernoulli;
 import desmoj.core.dist.ContDistExponential;
-import desmoj.core.simulator.Experiment;
 import desmoj.core.simulator.Model;
 import desmoj.core.simulator.ProcessQueue;
-import desmoj.core.simulator.TimeInstant;
 import desmoj.core.statistic.Count;
 import desmoj.core.statistic.Tally;
 
@@ -40,8 +36,11 @@ public class ClinicModel extends Model {
 	protected Count numberInSystem;
 	protected int queueThreshold;
 	protected Count totalCost;
-	protected Tally numberBalked;
-	protected Tally numberReffered;
+	protected Count numberBalked;
+	protected Count numberReffered;
+	protected Count numberToNurseThenEr;
+	protected Count numberCompletedService;
+	protected Tally totalTimeUntilCompletion;
 	protected StoppingCondition stop;
 
 	public ClinicModel(Model owner, String modelName, boolean showInReport, boolean showInTrace) {
@@ -77,15 +76,19 @@ public class ClinicModel extends Model {
 		// TODO Auto-generated method stub
 		totalCost = new Count(this, "Total Cost", true, true);
 		numberInSystem = new Count(this, "Number of Patients in system", true, true);
-		numberBalked = new Tally(this, "Number of Patients balked", true, true);
-		numberReffered = new Tally(this, "Number of Patients reffered to the specialist", true, true);
+		numberBalked = new Count(this, "Number of Patients balked", true, true);
+		numberReffered = new Count(this, "Number of Patients reffered to the specialist", true, true);
 		interarrivalTimes8am = new ContDistExponential(this, "Inter Arrival Times for 8am-10am", 15, true, true);
 		interarrivalTimes10am = new ContDistExponential(this, "Inter Arrival Times for 10am-4pm", 6, true, true);
 		interarrivalTimes4pm = new ContDistExponential(this, "Inter Arrival Times for 4pm-8pm", 9, true, true);
 		balks = new BoolDistBernoulli[9];
 		for (int i = 0; i < 9; i++) {
-			balks[i] = new BoolDistBernoulli(this, "Balk Probability", i / 8, true, true);
+			balks[i] = new BoolDistBernoulli(this, "Balk Probability", i / 8.0, true, true);
 		}
+		
+		numberCompletedService = new Count(this, "Number of Patients Completed Service", true, true);
+		totalTimeUntilCompletion = new Tally(this, "Time in System for patients who completed Service", true, true);
+		
 		idleNurseQueue = new ProcessQueue<NursePractioner>(this, "Idle Nurse Queue", true, true);
 		idleSpecialistQueue = new ProcessQueue<Specialist>(this, "Idle Specialist Queue", true, true);
 		nurseQueue = new ProcessQueue<Patient>(this, "Nurse Practioner Queue", true, true);
@@ -94,39 +97,6 @@ public class ClinicModel extends Model {
 		refer = new BoolDistBernoulli(this, "Refferal Probability", .4, true, true);
 		specialistTreatmentTimes = new ContDistExponential(this, "Specialist treatment Times", 25, true, true);
 		stop = new StoppingCondition(this, "Stopping Condition", true);
-	}
-
-	public static void main(String[] args) {
-		// Set reference units to be in minutes
-		Experiment.setReferenceUnit(TimeUnit.MINUTES);
-
-		// Create model and experiment
-		ClinicModel model = new ClinicModel(null, "Multi Server Queue: Processor oriented", true, true);
-		Experiment exp = new Experiment("ClinicExperiment");
-
-		// connect both
-		model.connectToExperiment(exp);
-
-		// Set experiment parameters
-		exp.setShowProgressBar(false); // display a progress bar (or not)
-		exp.stop(model.stop); //fix to stopping case
-		// Set the period of the trace and debug
-		exp.tracePeriod(new TimeInstant(0, TimeUnit.MINUTES), new TimeInstant(60, TimeUnit.MINUTES));
-		exp.debugPeriod(new TimeInstant(0, TimeUnit.MINUTES), new TimeInstant(60, TimeUnit.MINUTES));
-
-		// Start the experiment at simulation time 0.0
-		exp.start();
-
-		// --> now the simulation is running until it reaches its end criterion
-		// ...
-		// ...
-		// <-- afterwards, the main thread returns here
-
-		// Generate the report (and other output files)
-		exp.report();
-
-		// Stop all threads still alive and close all output files
-		exp.finish();
 	}
 
 }

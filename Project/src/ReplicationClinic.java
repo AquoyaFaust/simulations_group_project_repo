@@ -5,11 +5,11 @@ import desmoj.core.statistic.ConfidenceCalculator;
 
 public class ReplicationClinic extends Model {
 	
-	public static final int NUM_REPLICATIONS = 100;
-	public static final boolean INCLUDE_OUTPUT = true;
-	public static final boolean INCLUDE_REPORT = false;
+	public static final int NUM_REPLICATIONS = 1;
+	public static final boolean INCLUDE_OUTPUT = false;
+	public static final boolean INCLUDE_REPORT = true;
 	
-	protected ConfidenceCalculator repTotalCost;
+	protected ConfidenceCalculator repTotalCost; //gained from Tally
 	protected ConfidenceCalculator repArrival;
 	protected ConfidenceCalculator repBalk;
 	protected ConfidenceCalculator repNurseThenEr;
@@ -52,7 +52,7 @@ public class ReplicationClinic extends Model {
 	private boolean run(int n) {
 		ClinicModel model = new ClinicModel(null, "Clinic Model", true, true);
 		
-		String fileOut = "output/ClinicModel_Repl_#" + n;
+		String fileOut = "output/ClinicModel" + "_Repl_" + n;
 		Experiment exp = new Experiment(fileOut, INCLUDE_REPORT);
 		
 		exp.setSeedGenerator(941 + 2*n);
@@ -108,8 +108,24 @@ public class ReplicationClinic extends Model {
 	
 	@Override
 	public void init() {
-		//TODO: INITIALIZE STATISTICS HERE
-		
+		repTotalCost = new ConfidenceCalculator(this, 
+				"Per Replication: Total Cost", true, false); //gained from Tally
+		repArrival = new ConfidenceCalculator(this, 
+				"Per Replication: Number of Patients arrived", true, false);
+		repBalk = new ConfidenceCalculator(this, 
+				"Per Replication: Number of Patients balked before Nurse Practioner sees them", true, false);
+		repNurseThenEr = new ConfidenceCalculator(this, 
+				"Per Replication: Number of Patients who see the nurse and get sent to ER", true, false);
+		repCompletedTreatment = new ConfidenceCalculator(this, 
+				"Per Replication: Number of Patients who complete treatment in the clinic", true, false);
+		repTimeToCompletion = new ConfidenceCalculator(this, 
+				"Per Replication: Time it takes patients to complete service if not sent t ER", true, false);
+		repNurseUtilization = new ConfidenceCalculator(this, 
+				"Per Replication: How much Nurses are used", true, false);
+		repSpecialistUtilization = new ConfidenceCalculator(this, 
+				"Per Replication: How much specialists are used", true, false);
+		repNumInWaitingRoom = new ConfidenceCalculator(this, 
+				"Per Replication: Average number of people in the waiting room", true, false);
 	}
 	
 	public static void main(String[] args) {
