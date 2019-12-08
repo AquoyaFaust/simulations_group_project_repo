@@ -100,8 +100,8 @@ public class ClinicModel extends Model {
 		Experiment.setReferenceUnit(TimeUnit.MINUTES);
 
 		// Create model and experiment
-		ClinicModel model = new ClinicModel(null, "Single Server Queue with DESMO-J Processes (v1)", true, true);
-		Experiment exp = new Experiment("SSQExperiment");
+		ClinicModel model = new ClinicModel(null, "Multi Server Queue: Processor oriented", true, true);
+		Experiment exp = new Experiment("ClinicExperiment");
 
 		// connect both
 		model.connectToExperiment(exp);
