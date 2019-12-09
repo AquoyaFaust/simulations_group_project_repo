@@ -5,19 +5,19 @@ import desmoj.core.statistic.ConfidenceCalculator;
 
 public class ReplicationClinic extends Model {
 	
-	public static final int NUM_REPLICATIONS = 1;
+	public static final int NUM_REPLICATIONS = 10;
 	public static final boolean INCLUDE_OUTPUT = false;
 	public static final boolean INCLUDE_REPORT = true;
 	
 	protected ConfidenceCalculator repTotalCost; //gained from Tally
-	protected ConfidenceCalculator repArrival;
-	protected ConfidenceCalculator repBalk;
-	protected ConfidenceCalculator repNurseThenEr;
-	protected ConfidenceCalculator repCompletedTreatment;
-	protected ConfidenceCalculator repTimeToCompletion;
-	protected ConfidenceCalculator repNurseUtilization;
-	protected ConfidenceCalculator repSpecialistUtilization;
-	protected ConfidenceCalculator repNumInWaitingRoom;
+	protected ConfidenceCalculator repArrival; //gained in numInSystem
+	protected ConfidenceCalculator repBalk; //numBalked
+	protected ConfidenceCalculator repNurseThenEr; //variable by name
+	protected ConfidenceCalculator repCompletedTreatment; //completed
+	protected ConfidenceCalculator repTimeToCompletion; //tally for completion
+	protected ConfidenceCalculator repNurseUtilization; //idle nurse queue
+	protected ConfidenceCalculator repSpecialistUtilization; //idle specialist queue
+	protected ConfidenceCalculator repNumInWaitingRoom; //Captured by nurseQueue. avg length
 	
 	
 	
@@ -79,17 +79,25 @@ public class ReplicationClinic extends Model {
 		}
 		
 		try {
-			Thread.sleep(20);
+			Thread.sleep(12);
 		} catch (InterruptedException e) {
 			
 		}
 		
 		exp.report();
 		exp.finish();
-		//TODO: Finish this 
-		/* IMPORTANT STATISTICS*/
-		
+		/* IMPORTANT STATISTICS Grab here*/
+		long totalCost = model.totalCost.getValue();
+		long totalArrivals = model.numberInSystem.getMaximum();
+		long numberBalked = model.numberBalked.getValue();
+		long numberToNurseThenER = model.numberToNurseThenEr.getValue();
+		long numberCompletedTreatment = model.numberCompletedService.getValue();
+		double avgTimeToCompletion = model.totalTimeUntilCompletion.getMean();
+		double nurseUtilizationTime = model.NUMBER_OF_NURSES - model.idleNurseQueue.averageLength();
+		double specialistUtilizationTime = model.NUMBER_OF_SPECIALISTS - model.idleSpecialistQueue.averageLength();
+		double avgNumberInWaitingRoom = model.nurseQueue.averageLength();
 		//Check important statistics in this if statement
+		//TODO: Sanity Check inputs
 		if (model.presentTime().getTimeAsDouble() < 720 || false) {
 			System.out.println("WARNING: Rep" + n + ": Runtime Exception...\nretrying...");
 			
@@ -97,7 +105,15 @@ public class ReplicationClinic extends Model {
         }
 		
 		//UPDATE REPLICATION STATISTICS HERE
-		
+		repTotalCost.update(totalCost);
+		repArrival.update(totalArrivals);
+		repBalk.update(numberBalked);
+		repNurseThenEr.update(numberToNurseThenER);
+		repCompletedTreatment.update(numberCompletedTreatment);
+		repTimeToCompletion.update(avgTimeToCompletion);
+		repNurseUtilization.update(nurseUtilizationTime);
+		repSpecialistUtilization.update(specialistUtilizationTime);
+		repNumInWaitingRoom.update(avgNumberInWaitingRoom);
 		
 		
 		if (INCLUDE_OUTPUT) {
@@ -138,13 +154,13 @@ public class ReplicationClinic extends Model {
 		
 		exp.setShowProgressBar(false);
         exp.stop(new TimeInstant(0));
-        exp.tracePeriod(new TimeInstant(0), new TimeInstant(720, TimeUnit.MINUTES));
+        exp.traceOff(new TimeInstant(0));
         exp.debugOff(new TimeInstant(0));
         exp.setSilent(true);
         
         exp.start();
         exp.report();
-        exp.stop();
+        exp.finish();
 	}
 	
 	

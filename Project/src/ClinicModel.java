@@ -7,7 +7,7 @@ import desmoj.core.statistic.Tally;
 
 /**
  * 
- * @authors Mai Chen Aquoya Faust Remington Steele
+ * @authors Aquoya Faust, Remington Steele, Mai Chen
  * 
  *          This Desmo-J based simulator will be a process oriented Model It
  *          simulates a 12 hour a day 8am-8pm clinic including Nurse Practioners
@@ -15,9 +15,9 @@ import desmoj.core.statistic.Tally;
  */
 public class ClinicModel extends Model {
 	/* Changeable */
-	int numberExamRooms = 4;
-	int numberNurses = 1;
-	int numberSpecialists = 1;
+	public final int NUMBER_OF_EXAM_ROOMS = 1;
+	public final int NUMBER_OF_NURSES = 1;
+	public final int NUMBER_OF_SPECIALISTS = 1;
 	/* COMPONENTS */
 	ProcessQueue<NursePractioner> idleNurseQueue;
 	ProcessQueue<Specialist> idleSpecialistQueue;
@@ -59,15 +59,15 @@ public class ClinicModel extends Model {
 		ArrivalGenerator gen = new ArrivalGenerator(this, "Arrival Generator", true);
 		gen.activate();
 		// need to activate all practioners and specialists
-		for (int i = 0; i < numberNurses; i++) {
+		for (int i = 0; i < NUMBER_OF_NURSES; i++) {
 			NursePractioner n = new NursePractioner(this, "Nurse", true);
 			n.activate();
 		}
-		for (int i = 0; i < numberSpecialists; i++) {
+		for (int i = 0; i < NUMBER_OF_SPECIALISTS; i++) {
 			Specialist s = new Specialist(this, "Specialist", true);
 			s.activate();
 		}
-		totalCost.update(numberExamRooms * 300);
+		totalCost.update(NUMBER_OF_EXAM_ROOMS * 300);
 
 	}
 
@@ -88,6 +88,7 @@ public class ClinicModel extends Model {
 		
 		numberCompletedService = new Count(this, "Number of Patients Completed Service", true, true);
 		totalTimeUntilCompletion = new Tally(this, "Time in System for patients who completed Service", true, true);
+		numberToNurseThenEr = new Count(this, "Patients That go to the Nurse and are redirected to ER before specialist", true, true);
 		
 		idleNurseQueue = new ProcessQueue<NursePractioner>(this, "Idle Nurse Queue", true, true);
 		idleSpecialistQueue = new ProcessQueue<Specialist>(this, "Idle Specialist Queue", true, true);

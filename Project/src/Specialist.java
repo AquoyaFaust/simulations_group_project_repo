@@ -7,12 +7,10 @@ public class Specialist extends SimProcess {
 
 	public Specialist(Model owner, String name, boolean showInTrace) {
 		super(owner, name, showInTrace);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void lifeCycle() throws SuspendExecution {
-		// TODO Auto-generated method stub
 		ClinicModel model = (ClinicModel) getModel();
 		model.totalCost.update(1500);
 

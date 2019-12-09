@@ -14,9 +14,9 @@ public class ArrivalGenerator extends SimProcess{
 		while(model.presentTime().getTimeAsDouble() < 720) {
 			ContDistExponential interarrivalTimes = pickInterarrivalTime(model);
 			double iArrivalTime = interarrivalTimes.sample();
-			if(iArrivalTime + model.presentTime().getTimeAsDouble() >= 720) {
+			/*if(iArrivalTime + model.presentTime().getTimeAsDouble() >= 720) {
 				return;
-			}
+			}*/
 			Patient patient = new Patient(model, "Patient", true);
 			hold(new TimeSpan(iArrivalTime));
 			patient.activate();

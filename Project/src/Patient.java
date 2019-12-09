@@ -23,7 +23,8 @@ public class Patient extends SimProcess{
 		
 		/////////////////////////////////////////////////End Of Nurse Work//////////////
 		if(model.refer.sample()) {
-			if(timeInSystem(model) > 30 || model.specialistQueue.length() >= model.numberExamRooms - 1) {
+			model.numberReffered.update();
+			if(timeInSystem(model) > 30 || (model.idleSpecialistQueue.isEmpty() && model.specialistQueue.length() >= model.NUMBER_OF_EXAM_ROOMS - 1)) {
 				model.numberInSystem.update(-1);
 				model.totalCost.update(500);
 				model.numberToNurseThenEr.update();
