@@ -7,7 +7,7 @@ public class ReplicationClinic extends Model {
 	
 	public static final int NUM_REPLICATIONS = 10;
 	public static final boolean INCLUDE_OUTPUT = false;
-	public static final boolean INCLUDE_REPORT = true;
+	public static final boolean INCLUDE_REPORT = false;
 	
 	protected ConfidenceCalculator repTotalCost; //gained from Tally
 	protected ConfidenceCalculator repArrival; //gained in numInSystem
@@ -79,7 +79,7 @@ public class ReplicationClinic extends Model {
 		}
 		
 		try {
-			Thread.sleep(12);
+			Thread.sleep(10);
 		} catch (InterruptedException e) {
 			
 		}
