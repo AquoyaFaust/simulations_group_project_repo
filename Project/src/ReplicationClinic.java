@@ -88,17 +88,18 @@ public class ReplicationClinic extends Model {
 		exp.finish();
 		/* IMPORTANT STATISTICS Grab here*/
 		long totalCost = model.totalCost.getValue();
-		long totalArrivals = model.numberInSystem.getMaximum();
+		long totalArrivals = model.numberInSystem.getObservations();
 		long numberBalked = model.numberBalked.getValue();
 		long numberToNurseThenER = model.numberToNurseThenEr.getValue();
 		long numberCompletedTreatment = model.numberCompletedService.getValue();
 		double avgTimeToCompletion = model.totalTimeUntilCompletion.getMean();
-		double nurseUtilizationTime = model.NUMBER_OF_NURSES - model.idleNurseQueue.averageLength();
-		double specialistUtilizationTime = model.NUMBER_OF_SPECIALISTS - model.idleSpecialistQueue.averageLength();
+		double nurseUtilizationTime =  model.idleNurseQueue.averageLength() / model.NUMBER_OF_NURSES; //
+		double specialistUtilizationTime = model.idleSpecialistQueue.averageLength() / model.NUMBER_OF_SPECIALISTS; //
 		double avgNumberInWaitingRoom = model.nurseQueue.averageLength();
 		//Check important statistics in this if statement
-		//TODO: Sanity Check inputs
-		if (model.presentTime().getTimeAsDouble() < 720 || false) {
+		//Sanity Checkk
+		if (model.presentTime().getTimeAsDouble() < 720 || totalCost < (1200 + 1500 + 300) || totalArrivals < 0 || avgTimeToCompletion < 0 || 
+				(nurseUtilizationTime >= 1 || nurseUtilizationTime < 0) || (specialistUtilizationTime >= 1 && specialistUtilizationTime < 0) || avgNumberInWaitingRoom < 0 ) {
 			System.out.println("WARNING: Rep" + n + ": Runtime Exception...\nretrying...");
 			
             return false;
